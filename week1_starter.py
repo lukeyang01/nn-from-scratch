@@ -53,4 +53,5 @@ def main():
 
   print(f"Perceptron output after forward propogation: {out:.2f}")
 
-main()
+if __name__ == "__main__":
+  main()
