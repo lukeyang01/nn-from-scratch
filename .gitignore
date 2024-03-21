@@ -1,0 +1,6 @@
+__pycache__/
+env/
+week2_helper.py
+week2.py
+*.npy
+.DS_Store
