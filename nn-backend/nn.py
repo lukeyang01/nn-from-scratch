@@ -27,7 +27,7 @@ def relu_backward(dZ, h):
 
 class Network:
   """A Neural Network Class to Perform Basic Feedforward algorithm and training"""
-  def __init__(self, sizes: list):
+  def __init__(self, sizes: list, weight_path:str, bias_path:str):
     """Initialize a numpy array or a list of weights an array or list of weights depending on sizes"""
     self.sizes = sizes
     self.num_layers = len(sizes)
@@ -35,23 +35,27 @@ class Network:
     self.biases = []
 
     cwd = pathlib.Path.cwd()
-    self.wpath = cwd/'weights.npy'
-    self.bpath = cwd/'biases.npy'
+    self.wpath = cwd/weight_path
+    self.bpath = cwd/bias_path
     self.__init_params()
 
     return
 
   def __init_params(self):
     """Initialize random weights and biases based on size parameters."""
-    for i in range(1, self.num_layers):
-        # X inputs -> Y Ouputs
-        in_size = self.sizes[i-1]
-        out_size = self.sizes[i]
+    if self.wpath and self.bpath:
+      self.weights = np.load(self.wpath, allow_pickle=True)
+      self.biases = np.load(self.bpath, allow_pickle=True)
+    else:
+      for i in range(1, self.num_layers):
+          # X inputs -> Y Ouputs
+          in_size = self.sizes[i-1]
+          out_size = self.sizes[i]
 
-        # weights.shape = (Y, X), biases.shape = (Y, 1)
-        # e.g. 2 -> 3: weights is (2, 3), biases is (1, 3)
-        self.weights.append(np.random.randn(out_size, in_size) * 0.1)
-        self.biases.append(np.random.randn(out_size, 1) * 0.1)
+          # weights.shape = (Y, X), biases.shape = (Y, 1)
+          # e.g. 2 -> 3: weights is (2, 3), biases is (1, 3)
+          self.weights.append(np.random.randn(out_size, in_size) * 0.3)
+          self.biases.append(np.random.randn(out_size, 1) * 0.3)
 
   def forward(self, x: np.ndarray):
     """
@@ -125,7 +129,7 @@ class Network:
             print(f"Iteration {k}, mean loss: {new_loss}")
           k+=1
 
-  def sgd_train(self, X_train, y_train, epochs=1e6, lr=0.01, batch_size=1, verbose=True, reg=False):
+  def sgd_train(self, X_train, y_train, X_test, y_test, epochs=1e6, lr=0.01, batch_size=1, verbose=True, reg=False):
     """Using forward and backward functions, fit the model on an entire training step using gradient descent algorithm."""
     k = 0
     n = X_train.shape[0]
@@ -135,12 +139,15 @@ class Network:
     if self.wpath.exists() and self.bpath.exists():
         print("Existing model found, load it? [Y/N]: ")
         res = input()
-        if res == 'Y':
+        while res.lower() not in {'y', 'n'}:
+           print("Please enter [Y/N]:")
+           res = input()
+        if res.lower() == 'y':
                 print("Loading model...")
                 self.weights = np.load(self.wpath, allow_pickle=True)
                 self.biases = np.load(self.bpath, allow_pickle=True)
                 return
-    print("Training...")
+    print(f"Training...\nParams: num_epochs: {epochs}, lr: {lr}, batch size: {batch_size}")
 
     if reg:
         prev_loss = self.calc_squared_loss(X_train, y_train)
@@ -170,7 +177,8 @@ class Network:
         if verbose and reg:
             print(f"Epoch {k}, mean loss: {new_loss}")
         elif verbose:
-            print(f"Epoch {k}")
+            acc = self.mnist_evaluate(X_test, y_test)
+            print(f"Epoch {k}, accuracy: {acc*100}%")
         k+=1
 
     np.save(self.wpath, np.array(self.weights, dtype=object))
