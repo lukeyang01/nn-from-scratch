@@ -1,54 +1,31 @@
-import { Canvas } from "./Canvas.tsx";
-import React, { useEffect, useState } from "react";
+// Filename - App.js
+
+import React from "react";
+import Navbar from "./components/Navbar.tsx";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { MNIST } from "./pages/mnist/mnist.tsx";
+import { CCARD } from "./pages/credit_card/credit_card.tsx";
 import "./App.css";
 
 const url = "http://127.0.0.1:5000/api/";
 
-export const App = () => {
-  const [output_value, setOutput] = useState(0);
-  // fetch('/query_mnist', methods={'POST'});
-
-  const handleDraw = (svg) => {
-    fetch(url + "query_mnist", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({ mnist_svg: svg }),
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data);
-        setOutput(data["pred"]);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
+function App() {
   return (
-    <div className="main">
-      <header>
-        <div className="header-left">
-          <li>MNIST</li>
-          <li>Credit card fraud</li>
-          <li>Network Intrusion</li>
-        </div>
-
-        <li>Settings</li>
-      </header>
-
-      <div className="content">
-        <div className="canvas">
-          <Canvas handleDraw={handleDraw} />
-        </div>
-        <div className="output">
-          <h1>{output_value}</h1>
-        </div>
-      </div>
-
-      <footer></footer>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Navigate to="/mnist_draw" />}></Route>
+        <Route path="/mnist_draw" element={<MNIST />} />
+        <Route path="/credit_card" element={<CCARD />} />
+        {/* <Route path="/settings" element={<Settings />} /> */}
+      </Routes>
+    </Router>
   );
-};
+}
+
+export default App;

@@ -1,0 +1,37 @@
+header {
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 10vh;
+  background-color: rgb(33, 33, 33);
+  width: 100vw;
+}
+
+.header-left {
+  display: flex;
+  height: 100%;
+}
+
+.header-right {
+  display: flex;
+  height: 100%;
+}
+
+.header-button {
+  color: #fff;
+  list-style-type: none;
+  font-family: var(--text-font);
+  font-size: var(--fc-small-font-size);
+  font-weight: 700;
+  margin: 0 1rem 1rem 0;
+  margin-left: 5rem;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  border: white;
+}

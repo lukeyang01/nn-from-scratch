@@ -27,7 +27,7 @@ def relu_backward(dZ, h):
 
 class Network:
   """A Neural Network Class to Perform Basic Feedforward algorithm and training"""
-  def __init__(self, sizes: list, weight_path:str, bias_path:str):
+  def __init__(self, sizes: list, weight_path: str, bias_path: str, load_existing: bool):
     """Initialize a numpy array or a list of weights an array or list of weights depending on sizes"""
     self.sizes = sizes
     self.num_layers = len(sizes)
@@ -35,15 +35,17 @@ class Network:
     self.biases = []
 
     cwd = pathlib.Path.cwd()
-    self.wpath = cwd/weight_path
-    self.bpath = cwd/bias_path
+    self.wpath = cwd/weight_path or ""
+    self.bpath = cwd/bias_path or ""
+    self.load_existing = load_existing or False
     self.__init_params()
 
     return
 
   def __init_params(self):
     """Initialize random weights and biases based on size parameters."""
-    if self.wpath and self.bpath:
+    if self.wpath.exists() and self.bpath.exists() and self.load_existing:
+      print("Loading existing model...")
       self.weights = np.load(self.wpath, allow_pickle=True)
       self.biases = np.load(self.bpath, allow_pickle=True)
     else:
@@ -77,6 +79,7 @@ class Network:
         zs.append(x)
         x = sigmoid(x)
         activations.append(x)
+    # print(x)
     return x, activations, zs
 
   def backward(self, x: np.ndarray, y: np.ndarray):
@@ -104,12 +107,25 @@ class Network:
         delta_w[-l] = np.dot(delta, activations[-l-1].transpose())
     return (delta_w, delta_b)
 
-  def train(self, X_train, y_train, epochs=1e6, lr=0.01, batch_size=1, verbose=True):
+  def train(self, X_train, y_train, X_test, y_test, epochs=1e6, lr=0.01, verbose=True):
       """Using forward and backward functions, fit the model on an entire training step using gradient descent algorithm."""
       k = 0
       n = X_train.shape[0]
       d_x = X_train.shape[1]
       d_y = y_train.shape[1]
+
+      if self.wpath.exists() and self.bpath.exists():
+        print("Existing model found, load it? [Y/N]: ")
+        res = input()
+        while res.lower() not in {'y', 'n'}:
+           print("Please enter [Y/N]:")
+           res = input()
+        if res.lower() == 'y':
+                print("Loading model...")
+                self.weights = np.load(self.wpath, allow_pickle=True)
+                self.biases = np.load(self.bpath, allow_pickle=True)
+                return
+      print(f"Training...\nParams: num_epochs: {epochs}, lr: {lr}, normal GD")
 
       prev_loss = self.calc_squared_loss(X_train, y_train)
       new_loss = prev_loss
@@ -123,11 +139,14 @@ class Network:
             self.biases[i] -= lr * delta_b[i]
 
           prev_loss = new_loss
-          new_loss = self.calc_squared_loss(X_train, y_train)
+          # new_loss = self.calc_squared_loss(X_train, y_train)
 
           if verbose:
             print(f"Iteration {k}, mean loss: {new_loss}")
           k+=1
+
+      np.save(self.wpath, np.array(self.weights, dtype=object))
+      np.save(self.bpath, np.array(self.biases, dtype=object))
 
   def sgd_train(self, X_train, y_train, X_test, y_test, epochs=1e6, lr=0.01, batch_size=1, verbose=True, reg=False):
     """Using forward and backward functions, fit the model on an entire training step using gradient descent algorithm."""
@@ -147,7 +166,7 @@ class Network:
                 self.weights = np.load(self.wpath, allow_pickle=True)
                 self.biases = np.load(self.bpath, allow_pickle=True)
                 return
-    print(f"Training...\nParams: num_epochs: {epochs}, lr: {lr}, batch size: {batch_size}")
+    print(f"Training...\nParams: num_epochs: {epochs}, lr: {lr}, batch size: {batch_size}, SGD")
 
     if reg:
         prev_loss = self.calc_squared_loss(X_train, y_train)
@@ -161,7 +180,7 @@ class Network:
         for i in range(batch_size):
             x = X_train[rng[i]].reshape((d_x, 1))
             y = y_train[rng[i]].reshape((d_y, 1))
-            y = self.mnist_one_hot(y[0])
+            y = self.nid_one_hot(int(y.item()))
 
             # print(x.shape,y.shape)
 
@@ -177,7 +196,7 @@ class Network:
         if verbose and reg:
             print(f"Epoch {k}, mean loss: {new_loss}")
         elif verbose:
-            acc = self.mnist_evaluate(X_test, y_test)
+            acc = self.evaluate(X_test, y_test)
             print(f"Epoch {k}, accuracy: {acc*100}%")
         k+=1
 
@@ -192,28 +211,43 @@ class Network:
     for i in range(len(X)):
       y_v, _, _ = self.forward(X[i].reshape(d,1))
       sum += ((y[i] - y_v) ** 2) / 2
-    return np.mean(sum)
+    return np.mean(sum) / n
   
   def mnist_one_hot(self, Y):
     one_hot_Y = np.zeros((1, 10))
     one_hot_Y[np.arange(1), Y] = 1
     return one_hot_Y.T
+  
+  def nid_one_hot(self, Y):
+    one_hot_Y = np.zeros((1, 23))
+    one_hot_Y[np.arange(1), Y] = 1
+    return one_hot_Y.T
 
-  def mnist_evaluate(self, X_test, y_test):
-    right = 0
-    wrong = 0
+  def evaluate(self, X_test, y_test):
+    correct = 0
     n = X_test.shape[0]
-    d_x = X_test.shape[1]
-    # X_test = X_test.reshape((d_x, n))
-    # y_test = y_test.reshape((1, n))
     for x, y in zip(X_test, y_test):
         pred = self.forward(x)[0]
         # print(np.argmax(pred), y)
         if np.argmax(pred) == y:
-            right += 1
-        else:
-            wrong += 1
-    accuracy = right / (right + wrong)
-    return accuracy
-          
+            correct += 1
+    return correct / n
+
+  def cc_evaluate(self, X_test, y_test):
+    sum = 0
+    n = X_test.shape[0]
+    d_x = X_test.shape[1]
+    # X_test = X_test.reshape((n, d_x))
+    # y_test = y_test.reshape((1, n))
+    for x, y in zip(X_test, y_test):
+        x = x.reshape((d_x, 1))
+        y = y.reshape((1, 1))
+        pred, _, _ = self.forward(x)
+        # print(x)
+        # print(pred, y)
+        pred = 1 if pred >= 0.5 else 0
+        # print(np.argmax(pred), y)
+        if pred == y:
+            sum += 1
+    return sum / n
           

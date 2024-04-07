@@ -6,7 +6,7 @@ from nn import Network
 from pathlib import Path
 from sklearn.model_selection import train_test_split
 
-model = Network([784,700,500,300,10], "nn-backend/data/mnist_weights.npy", "nn-backend/data/mnist_biases.npy")
+model = Network([784,700,500,300,10], "nn-backend/data/mnist_weights.npy", "nn-backend/data/mnist_biases.npy", load_existing=True)
 
 path = Path(__file__).parent / "data"
 
