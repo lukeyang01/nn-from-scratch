@@ -17,7 +17,6 @@ def shift_vector(x, center_x, center_y, size_x: int, size_y: int):
         print(x.shape)
         x = x[abs(padding_x):x.shape[0], :]
 
-
     elif padding_x < 0:
         # Shift right
         pp_x = np.full(shape = (abs(padding_x), x.shape[1]), fill_value=0)
