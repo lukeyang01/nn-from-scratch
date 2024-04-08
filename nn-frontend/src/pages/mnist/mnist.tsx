@@ -48,7 +48,7 @@ export const MNIST = () => {
 
   return (
     <div className="main">
-      <div className="content">
+      <div className="mnist-body">
         <div className="canvas">
           <Canvas handleDraw={handleDraw} />
         </div>
