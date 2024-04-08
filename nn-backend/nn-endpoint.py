@@ -3,9 +3,9 @@ from flask_cors import CORS
 from PIL import Image
 import cairosvg
 import numpy as np
-import pathlib
 import io
 from nn import Network
+from helper import shift_vector
 
 app = flask.Flask(__name__)
 cors = CORS(app)
@@ -23,15 +23,25 @@ def query_mnist():
     mnist_svg = flask.request.get_json()["mnist_svg"]
     mem = io.BytesIO()
     cairosvg.svg2png(mnist_svg, output_width=28, output_height=28, write_to=mem, negate_colors=True)
+
     x = np.array(Image.open(mem))
+
+    # Only consider first three channels (r,g,b), then convert to grayscale
     x = x[:,:,:3]
     x = x.mean(axis=2)
+
+    # Calculate center of mass to center images
+    center_x = np.argmax(x.mean(axis=1))
+    center_y = np.argmax(x.mean(axis=0))
+    x = shift_vector(x, center_x, center_y, 28, 28)
+
+    # Flatten image, normalize
     x = x.flatten().reshape(784, 1)
     x = x / 255
-    # print(x)
+
+    # Generate prediction
     y_pred, _, _ = mnist.forward(x)
-    # y_pred = np.argmax(y_pred)
-    print(y_pred)
+    # print(y_pred)
     response = flask.jsonify({"0": str(y_pred[0][0]),
                               "1": str(y_pred[1][0]),
                               "2": str(y_pred[2][0]),
