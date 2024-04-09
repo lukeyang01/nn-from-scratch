@@ -12,6 +12,13 @@ body {
   height: 100vh;
   margin: 0;
 }
+
+h1 {
+  font-family: var(--text-font);
+}
+h2 {
+  font-family: var(--text-font);
+}
 /* 
 #root {
   height: 100%;

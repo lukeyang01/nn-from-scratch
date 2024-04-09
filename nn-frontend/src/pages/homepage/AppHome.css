@@ -7,15 +7,16 @@
 
 .apphome-container {
   width: 100%;
-  height: 100%;
+  height: fit-content;
 }
 .apphome-body {
-  width: 80%;
+  width: 60vw;
   height: 100%;
   background-color: #e8e8e8;
   border-radius: 0.4rem;
   /* border: 1px black solid; */
   box-shadow: 5px;
+  padding: 0 5rem 0 5rem;
 }
 
 .apphome-body > * {

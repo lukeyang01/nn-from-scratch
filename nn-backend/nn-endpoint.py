@@ -5,9 +5,10 @@ import cairosvg
 import numpy as np
 import io
 from nn import Network
-from helper import shift_vector
+from helper import shift_vector, random_date
 import pandas as pd
 from pathlib import Path
+import censusname
 
 app = flask.Flask(__name__)
 cors = CORS(app)
@@ -17,8 +18,11 @@ path = Path(__file__).parent / "data"
 nid_data = pd.read_csv(path / "clean_packet_data.csv")
 nid_data = np.array(nid_data.drop(['id', 'class'], axis=1))
 
+cc_data = pd.read_csv(path / "creditcard_2023.csv")
+cc_data = np.array(cc_data.drop(['id', 'Class'], axis=1))
+
 mnist = Network([784,700,500,300,10], "data/mnist_weights.npy", "data/mnist_biases.npy", load_existing=True)
-# cc = Network([784,700,500,300,10], "data/mnist_weights.npy", "data/mnist_biases.npy", load_existing=True)
+cc = Network([29,40,1], "data/cc_weights.npy", "data/cc_biases.npy", load_existing=True)
 nid = Network([41,32,23], "data/nid_weights.npy", "data/nid_biases.npy", load_existing=True)
 
 @app.route("/api/", methods=['GET'])
@@ -62,21 +66,17 @@ def query_mnist():
                               "9": str(y_pred[9][0])})
     return response
 
-@app.route("/api/query_cc", methods=['POST'])
+@app.route("/api/query_cc", methods=['GET'])
 def query_cc():
-    mnist_svg = flask.request.get_json()["mnist_svg"]
-    mem = io.BytesIO()
-    cairosvg.svg2png(mnist_svg, output_width=28, output_height=28, write_to=mem, negate_colors=True)
-    x = np.array(Image.open(mem))
-    x = x[:,:,:3]
-    x = x.mean(axis=2)
-    x = x.flatten().reshape(784, 1)
-    x = x / 255
+    x = cc_data[np.random.randint(0, nid_data.shape[0])]
     # print(x)
-    y_pred, _, _ = mnist.forward(x)
-    y_pred = np.argmax(y_pred)
-    print(y_pred)
-    response = flask.jsonify({"pred": str(y_pred)})
+    y_pred, _, _ = cc.forward(x)
+    if (y_pred > 0.5):
+        y_pred = "Fraud"
+    else:
+        y_pred = "Valid"
+    date = random_date()
+    response = flask.jsonify({"fraud": y_pred, "amount": x[-1], "name": censusname.generate(), "date": date})
     return response
 
 @app.route("/api/query_nid", methods=['GET'])
