@@ -1,13 +1,7 @@
-import { Canvas } from "../../components/canvas/Canvas.tsx";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./AppHome.css";
 
-const url = "http://127.0.0.1:5000/api/";
-
 export const AppHome = () => {
-  const [output_value, setOutput] = useState(0);
-  // fetch('/query_mnist', methods={'POST'});
-
   return (
     <div className="apphome-container flex-center">
       <div className="apphome-body flex-center">
