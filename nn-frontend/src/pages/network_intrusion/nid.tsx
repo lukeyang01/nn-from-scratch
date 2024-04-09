@@ -1,7 +1,12 @@
 import { Canvas } from "../../components/canvas/Canvas.tsx";
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import { Chart, CategoryScale, registerables } from "chart.js";
-import { nid_data, prot_type, service_type, flag_types } from "./nid_helper.tsx";
+import {
+  nid_data,
+  prot_type,
+  service_type,
+  flag_types,
+} from "./nid_helper.tsx";
 import "./nid.css";
 
 Chart.register(...registerables, CategoryScale);

@@ -47,17 +47,20 @@ export const MNIST = () => {
   };
 
   return (
-    <div className="main">
-      <div className="mnist-body">
-        <div className="canvas">
-          <Canvas handleDraw={handleDraw} />
-        </div>
-        <div className="output">
-          <BarChart chartData={chartData}></BarChart>
-        </div>
+    <div className="mnist-body">
+      <div className="canvas">
+        <Canvas handleDraw={handleDraw} />
       </div>
-
-      <footer></footer>
+      <div className="mnist-block">
+        <h1>MNIST</h1>
+        <p>
+          Trained on Modified National Institute of Standards and Technology
+          (MNIST) database to achieve over 98% accuracy on training data.
+        </p>
+      </div>
+      <div className="output">
+        <BarChart chartData={chartData}></BarChart>
+      </div>
     </div>
   );
 };

@@ -11,6 +11,8 @@ function Navbar() {
         <Link className={"header-button"} to="/">
           HOME
         </Link>
+      </div>
+      <div className="header-right">
         <Link className={"header-button"} to="/mnist_draw">
           MNIST
         </Link>
@@ -20,11 +22,9 @@ function Navbar() {
         <Link className={"header-button"} to="/network_intrusion">
           NETWORK INTRUSION
         </Link>
-      </div>
-      <div className="header-right">
-        <Link className={"header-button"} to="/settings">
+        {/* <Link className={"header-button"} to="/settings">
           Settings
-        </Link>
+        </Link> */}
       </div>
     </header>
   );
