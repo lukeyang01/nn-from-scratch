@@ -9,6 +9,7 @@ from helper import shift_vector, random_date
 import pandas as pd
 from pathlib import Path
 import censusname
+from sklearn import preprocessing
 
 app = flask.Flask(__name__)
 cors = CORS(app)
@@ -17,9 +18,11 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 path = Path(__file__).parent / "data"
 nid_data = pd.read_csv(path / "clean_packet_data.csv")
 nid_data = np.array(nid_data.drop(['id', 'class'], axis=1))
+nid_norm_data = preprocessing.normalize(nid_data)
 
 cc_data = pd.read_csv(path / "creditcard_2023.csv")
 cc_data = np.array(cc_data.drop(['id', 'Class'], axis=1))
+cc_norm_data = preprocessing.minmax_scale(cc_data)
 
 mnist = Network([784,700,500,300,10], "data/mnist_weights.npy", "data/mnist_biases.npy", load_existing=True)
 cc = Network([29,40,1], "data/cc_weights.npy", "data/cc_biases.npy", load_existing=True)
@@ -68,10 +71,13 @@ def query_mnist():
 
 @app.route("/api/query_cc", methods=['GET'])
 def query_cc():
-    x = cc_data[np.random.randint(0, nid_data.shape[0])]
+    randi = np.random.randint(0, nid_data.shape[0])
+    x_train = cc_norm_data[randi]
+    x = cc_data[randi]
     # print(x)
-    y_pred, _, _ = cc.forward(x)
-    if (y_pred > 0.5):
+    y_pred, _, _ = cc.forward(x_train)
+    y_pred = np.argmax(y_pred)
+    if (y_pred == 1):
         y_pred = "Fraud"
     else:
         y_pred = "Valid"
@@ -81,8 +87,11 @@ def query_cc():
 
 @app.route("/api/query_nid", methods=['GET'])
 def query_nid():
-    x = nid_data[np.random.randint(0, nid_data.shape[0])]
-    y_pred, _, _ = nid.forward(x)
+    randi = np.random.randint(0, nid_data.shape[0])
+    x = nid_data[randi]
+    x_train = nid_norm_data[randi]
+
+    y_pred, _, _ = nid.forward(x_train)
     y_pred = np.argmax(y_pred)
     out = {'duration': x[0], 'protocol_type': x[1], 'service': x[2], 'flag': x[3], 'src_bytes': x[4],
        'dst_bytes': x[5], 'land': x[6], 'wrong_fragment': x[7], 'urgent': x[8], 'hot': x[9],

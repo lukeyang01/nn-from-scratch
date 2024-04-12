@@ -69,17 +69,18 @@ export const AppHome = () => {
         <div className="app-cc-body flex-center">
           <h2>Credit Card Fraud Detection</h2>
           <p>
-            For the MNIST dataset, we managed to achieve an accuracy of 96.29%
-            on testing data. To do this, we utilized the following parameters:
-            <li>Layers: [784, 700, 500, 300, 10]</li>
+            For the Credit Card Fraud dataset, we managed to achieve an accuracy
+            of 95.26% on testing data. To do this, we utilized the following
+            parameters:
+            <li>Layers: [29, 40, 2]</li>
             <li>Minibatch SGD</li>
-            <li>Number of epochs: 100</li>
-            <li>Learning rate: 0.15</li>
-            <li>Batch size: 2056</li>
+            <li>Number of epochs: 29</li>
+            <li>Learning rate: 1</li>
+            <li>Batch size: 1024</li>
             <li>
               Weights/biases initialized with standard dev = 0.3 and mean = 0
             </li>
-            <li>Normalized input vector by factor of 255</li>
+            <li>Normalized input vector using sklearn.min_max_scale</li>
           </p>
         </div>
         <div className="app-nid-body flex-center">

@@ -93,7 +93,7 @@ class Network:
     # feedforward
     activation = x
     res, activations, zs = self.forward(activation)
-    # print(res, y)
+
     # backward pass
     delta = (activations[-1] - y) * sigmoid_backward(zs[-1])
     delta_b[-1] = delta
@@ -155,6 +155,8 @@ class Network:
     d_x = X_train.shape[1]
     d_y = y_train.shape[1]
 
+    print(n, d_x, d_y)
+
     if self.wpath.exists() and self.bpath.exists():
         print("Existing model found, load it? [Y/N]: ")
         res = input()
@@ -176,11 +178,11 @@ class Network:
        new_loss = 0
 
     while (k < epochs and (k == 0 or abs(prev_loss - new_loss) > 1e-5)):
-        rng = np.random.permutation(X_train.shape[0])
+        rng = np.random.permutation(n)
         for i in range(batch_size):
             x = X_train[rng[i]].reshape((d_x, 1))
             y = y_train[rng[i]].reshape((d_y, 1))
-            y = self.nid_one_hot(int(y.item()))
+            y = self.cc_one_hot(int(y.item()))
 
             # print(x.shape,y.shape)
 
@@ -222,13 +224,18 @@ class Network:
     one_hot_Y = np.zeros((1, 23))
     one_hot_Y[np.arange(1), Y] = 1
     return one_hot_Y.T
+  
+  def cc_one_hot(self, Y):
+    one_hot_Y = np.zeros((1, 2))
+    one_hot_Y[np.arange(1), Y] = 1
+    return one_hot_Y.T
 
   def evaluate(self, X_test, y_test):
     correct = 0
     n = X_test.shape[0]
     for x, y in zip(X_test, y_test):
         pred = self.forward(x)[0]
-        # print(np.argmax(pred), y)
+        # print(pred, np.argmax(pred), y)
         if np.argmax(pred) == y:
             correct += 1
     return correct / n
