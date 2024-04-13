@@ -6,11 +6,11 @@ This github repository represents the final deliverable for the 'Neural Networks
 
 These zip files are for incorporating existing MLP models with frontend/backend. To install, download corresponding zip file for your model, following slides to incorporate your model and saved weights into the app.
 
-[MNIST only](/releases/mnist_only.zip)
+[MNIST only](https://github.com/lukeyang01/nn-from-scratch/archive/refs/tags/MNIST_ONLY.zip)
 
-[Credit Card only](/releases/cc_only.zip)
+[Credit Card only](https://github.com/lukeyang01/nn-from-scratch/archive/refs/tags/CC-ONLY.zip)
 
-[NID only](/releases/nid_only.zip)
+[NID only](https://github.com/lukeyang01/nn-from-scratch/archive/refs/tags/NID-ONLY.zip)
 
 [Full web app (includes MNIST/CC/NID)](/releases/full_app.zip)
 
