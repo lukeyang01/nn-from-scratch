@@ -2,7 +2,7 @@
 
 ## Releases
 
-[MNIST only](/mnist_only.zip)
+[MNIST only](https://github.com/lukeyang01/nn-from-scratch/archive/refs/tags/MNIST_ONLY.zip)
 
 ## TODO:
 
