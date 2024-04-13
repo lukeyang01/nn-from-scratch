@@ -46,7 +46,7 @@ Console 2 - Start the backend (NOTE: Must cd into folder or dependencies/imports
 
 ```bash
   cd nn-backend
-  ./run
+  ./run_backend
 ```
 
 ## Screenshots
