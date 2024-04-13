@@ -54,7 +54,6 @@ def query_mnist():
     x = x.flatten().reshape(784, 1)
     x = x / 255
 
-    print(x)
     # Generate prediction
     y_pred, _, _ = mnist.forward(x)
     # print(y_pred)
@@ -72,7 +71,7 @@ def query_mnist():
 
 @app.route("/api/query_cc", methods=['GET'])
 def query_cc():
-    randi = np.random.randint(0, nid_data.shape[0])
+    randi = np.random.randint(0, cc_data.shape[0])
     x_train = cc_norm_data[randi]
     x = cc_data[randi]
     # print(x)
