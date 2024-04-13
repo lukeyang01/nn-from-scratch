@@ -1,10 +1,10 @@
-import { Canvas } from "../../components/canvas/Canvas.tsx";
 import React, { useEffect, useState } from "react";
 
 import "./credit_card.css";
 import { PieChart } from "../../components/PieChart.tsx";
+import { api_url } from "../../API-URL.tsx";
 
-const url = "http://127.0.0.1:5000/api/";
+const url = api_url;
 
 interface cc_data_type {
   name: String;
@@ -61,7 +61,7 @@ export const CCARD = () => {
     let fraud_count = 0;
     let valid_count = 0;
     raw_data?.map((data) => {
-      if (data.fraud == "Fraud") fraud_count++;
+      if (data.fraud === "Fraud") fraud_count++;
       else valid_count++;
     });
     setFraud(fraud_count);

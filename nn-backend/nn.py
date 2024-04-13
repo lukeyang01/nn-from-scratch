@@ -79,7 +79,6 @@ class Network:
         zs.append(x)
         x = sigmoid(x)
         activations.append(x)
-    # print(x)
     return x, activations, zs
 
   def backward(self, x: np.ndarray, y: np.ndarray):

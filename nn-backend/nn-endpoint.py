@@ -54,6 +54,7 @@ def query_mnist():
     x = x.flatten().reshape(784, 1)
     x = x / 255
 
+    print(x)
     # Generate prediction
     y_pred, _, _ = mnist.forward(x)
     # print(y_pred)

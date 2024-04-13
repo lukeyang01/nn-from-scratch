@@ -1,5 +1,4 @@
-import { Canvas } from "../../components/canvas/Canvas.tsx";
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Chart, CategoryScale, registerables } from "chart.js";
 import {
   nid_data,
@@ -8,10 +7,11 @@ import {
   flag_types,
 } from "./nid_helper.tsx";
 import "./nid.css";
+import { api_url } from "../../API-URL.tsx";
 
 Chart.register(...registerables, CategoryScale);
 
-const url = "http://127.0.0.1:5000/api/";
+const url = api_url;
 
 export const NID = () => {
   const [data, setPred] = useState<nid_data>();

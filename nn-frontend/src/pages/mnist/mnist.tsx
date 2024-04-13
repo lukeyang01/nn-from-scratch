@@ -1,12 +1,13 @@
 import { Canvas } from "../../components/canvas/Canvas.tsx";
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Chart, CategoryScale, registerables } from "chart.js";
 import { BarChart } from "../../components/BarChart.tsx";
 import "./mnist.css";
+import { api_url } from "../../API-URL.tsx";
 
 Chart.register(...registerables, CategoryScale);
 
-const url = "http://127.0.0.1:5000/api/";
+const url = api_url;
 
 const nums = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 export const MNIST = () => {

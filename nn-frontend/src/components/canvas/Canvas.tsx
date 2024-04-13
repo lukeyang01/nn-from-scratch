@@ -19,7 +19,7 @@ export const Canvas = class extends React.Component<CanvasProps, {}> {
       <div className="canvas-container">
         <ReactSketchCanvas
           ref={this.canvas}
-          strokeWidth={40}
+          strokeWidth={50}
           strokeColor="black"
           onStroke={() => {
             this.canvas.current

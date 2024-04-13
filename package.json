@@ -1,0 +1,10 @@
+{
+  "name": "nn-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {},
+  "scripts": {
+    "start": "cd nn-frontend && npm start",
+    "postinstall": "cd nn-frontend && npm ci"
+  }
+}

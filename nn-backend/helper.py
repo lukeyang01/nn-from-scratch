@@ -16,16 +16,13 @@ def shift_vector(x, center_x, center_y, size_x: int, size_y: int):
         # Shift left
         pp_x = np.full(shape = (padding_x, x.shape[1]), fill_value=0)
         x = np.vstack(tup=(x, pp_x))
-        print(x.shape)
         x = x[abs(padding_x):x.shape[0], :]
 
     elif padding_x < 0:
         # Shift right
         pp_x = np.full(shape = (abs(padding_x), x.shape[1]), fill_value=0)
         x = np.vstack(tup=(abs(pp_x), x))
-        print(x.shape)
         x = x[0:size_y, :]
-        print(x.shape)
 
     if padding_y > 0:
         # Shift up
