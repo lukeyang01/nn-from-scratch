@@ -2,7 +2,7 @@
 
 ## Releases
 
-[MNIST only](/releases/mnist_only.zip)
+[MNIST only](/mnist_only.zip)
 
 ## TODO:
 
