@@ -12,7 +12,7 @@ These zip files are for incorporating existing MLP models with frontend/backend.
 
 [NID only](https://github.com/lukeyang01/nn-from-scratch/archive/refs/tags/NID-ONLY.zip)
 
-[Full web app (includes MNIST/CC/NID)](/releases/full_app.zip)
+[Full web app (includes MNIST/CC/NID)](https://github.com/lukeyang01/nn-from-scratch/archive/refs/tags/FULL-APP.zip)
 
 ## Installation/Run Locally
 
