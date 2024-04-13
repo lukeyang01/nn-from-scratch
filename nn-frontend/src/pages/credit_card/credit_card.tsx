@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import "./credit_card.css";
 import { PieChart } from "../../components/PieChart.tsx";
+import { Chart, ArcElement } from "chart.js";
 import { api_url } from "../../API-URL.tsx";
+
+Chart.register(ArcElement);
 
 const url = api_url;
 

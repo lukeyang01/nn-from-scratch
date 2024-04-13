@@ -1,11 +1,11 @@
-import io
 import flask
-import cairosvg
+import censusname
 import numpy as np
+import pandas as pd
+from sklearn import preprocessing
 from flask_cors import CORS
-from PIL import Image
 from nn import Network # TODO: IMPORT MODEL HERE
-from helper import shift_vector
+from helper import random_date
 from pathlib import Path
 
 app = flask.Flask(__name__)
@@ -14,8 +14,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 path = Path(__file__).parent / "data"
 
-MODEL_PARAMS = [784, 10] #TODO: Change to match your model parameters
-mnist = Network(MODEL_PARAMS, "data/mnist_weights.npy", "data/mnist_biases.npy", load_existing=True)
+cc_data = pd.read_csv(path / "creditcard_2023.csv")
+cc_data = np.array(cc_data.drop(['id', 'Class'], axis=1))
+cc_norm_data = preprocessing.minmax_scale(cc_data)
+
+MODEL_PARAMS = [29, 2] #TODO: Change to match your model parameters
+cc = Network(MODEL_PARAMS, "data/cc_weights.npy", "data/cc_biases.npy", load_existing=True)
 
 @app.route("/api/", methods=['GET'])
 def index():
