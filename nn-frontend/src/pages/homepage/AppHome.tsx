@@ -51,12 +51,12 @@ export const AppHome = () => {
             training process and parameters we used to reach that mark.
           </p>
         </div>
-        <div className="app-cc-body flex-center">
-          <h2>Credit Card Fraud</h2>
+        <div className="app-nid-body flex-center">
+          <h2>Network Intrusion Detection</h2>
           <p>
-            For the Credit Card Fraud dataset, we managed to achieve an accuracy
-            of [ACCURACY] on testing data. To do this, we utilized the following
-            parameters:
+            For the Network Intrusion Detection dataset, we managed to achieve
+            an accuracy of [ACCURACY] on testing data. To do this, we utilized
+            the following parameters:
             <li>Layers: [ENTER LAYERS HERE]</li>
             <li>Number of epochs: [NUMBER EPOCHS USED]</li>
             <li>Learning rate: [LEARNING RATE USED]</li>
@@ -66,7 +66,7 @@ export const AppHome = () => {
               [MEAN]
             </li>
             <li>
-              Normalized input vector using sklearn.preprocessing.normalize
+              Normalized input vector using sklearn.preprocessing.minmaxscalar
             </li>
           </p>
         </div>
