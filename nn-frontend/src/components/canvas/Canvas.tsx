@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ReactSketchCanvas } from "react-sketch-canvas";
+import { ReactSketchCanvas, ReactSketchCanvasRef } from "react-sketch-canvas";
 import "./Canvas.css";
 
 const styles = {
@@ -8,7 +8,7 @@ const styles = {
 };
 
 export const Canvas = class extends React.Component<CanvasProps, {}> {
-  canvas: LegacyRef<ReactSketchCanvasRef> | undefined;
+  canvas: React.LegacyRef<ReactSketchCanvasRef> | undefined;
   constructor(props) {
     super(props);
     this.canvas = React.createRef();

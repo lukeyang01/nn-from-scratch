@@ -16,8 +16,8 @@ function App() {
       <Routes>
         <Route path="/" element={<AppHome />}></Route>
         <Route path="/mnist_draw" element={<MNIST />} />
-        <Route path="/credit_card" element={<CCARD />} />
-        <Route path="/network_intrusion" element={<NID />} />
+        {/* <Route path="/credit_card" element={<CCARD />} /> */}
+        {/* <Route path="/network_intrusion" element={<NID />} /> */}
         {/* <Route path="/settings" element={<Settings />} /> */}
       </Routes>
     </Router>

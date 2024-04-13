@@ -16,12 +16,12 @@ function Navbar() {
         <Link className={"header-button"} to="/mnist_draw">
           MNIST
         </Link>
-        <Link className={"header-button"} to="/credit_card">
+        {/* <Link className={"header-button"} to="/credit_card">
           CREDIT CARD FRAUD
         </Link>
         <Link className={"header-button"} to="/network_intrusion">
           NETWORK INTRUSION
-        </Link>
+        </Link> */}
         {/* <Link className={"header-button"} to="/settings">
           Settings
         </Link> */}

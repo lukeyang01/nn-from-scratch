@@ -56,48 +56,15 @@ export const AppHome = () => {
           <p>
             For the MNIST dataset, we managed to achieve an accuracy of 96.29%
             on testing data. To do this, we utilized the following parameters:
-            <li>Layers: [784, 700, 500, 300, 10]</li>
-            <li>Number of epochs: 100</li>
-            <li>Learning rate: 0.15</li>
-            <li>Batch size: 2056</li>
+            <li>Layers: [ENTER LAYERS HERE]</li>
+            <li>Number of epochs: [NUMBER EPOCHS USED]</li>
+            <li>Learning rate: [LEARNING RATE USED]</li>
+            <li>Batch size: [BATCH SIZE USED]</li>
             <li>
-              Weights/biases initialized with standard dev = 0.3 and mean = 0
+              Weights/biases initialized with standard dev = [STDV] and mean =
+              [MEAN]
             </li>
             <li>Normalized input vector by factor of 255</li>
-          </p>
-        </div>
-        <div className="app-cc-body flex-center">
-          <h2>Credit Card Fraud Detection</h2>
-          <p>
-            For the Credit Card Fraud dataset, we managed to achieve an accuracy
-            of 95.26% on testing data. To do this, we utilized the following
-            parameters:
-            <li>Layers: [29, 40, 2]</li>
-            <li>Minibatch SGD</li>
-            <li>Number of epochs: 29</li>
-            <li>Learning rate: 1</li>
-            <li>Batch size: 1024</li>
-            <li>
-              Weights/biases initialized with standard dev = 0.3 and mean = 0
-            </li>
-            <li>Normalized input vector using sklearn.min_max_scale</li>
-          </p>
-        </div>
-        <div className="app-nid-body flex-center">
-          <h2>Network Intrusion Detection</h2>
-          <p>
-            For the Network Intrusion Detection dataset, we managed to achieve
-            an accuracy of 98.08% on testing data. To do this, we utilized the
-            following parameters:
-            <li>Layers: [41, 32, 23]</li>
-            <li>Minibatch SGD</li>
-            <li>Number of epochs: 16</li>
-            <li>Learning rate: 0.8</li>
-            <li>Batch size: 512</li>
-            <li>
-              Weights/biases initialized with standard dev = 0.5 and mean = 0
-            </li>
-            <li>Normalized input vector using sklearn.normalize</li>
           </p>
         </div>
       </div>
