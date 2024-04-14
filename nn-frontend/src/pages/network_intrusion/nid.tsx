@@ -5,6 +5,7 @@ import {
   prot_type,
   service_type,
   flag_types,
+  class_type,
 } from "./nid_helper.tsx";
 import "./nid.css";
 import { api_url } from "../../API-URL.tsx";
@@ -250,7 +251,13 @@ export const NID = () => {
 
         <div className="data-block nid-output">
           <div className="data-disp-header">PREDICTED ATTACK TYPE</div>
-          <h1>{data?.pred}</h1>
+          <h1>
+            {
+              class_type[
+                (data?.pred as unknown as keyof typeof class_type) || 0
+              ]
+            }
+          </h1>
         </div>
       </div>
 
